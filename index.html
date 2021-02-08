@@ -21,6 +21,7 @@
             const token = result.credential.accessToken;
             const user = result.user;
             const profile = googleUser.getBasicProfile();
+            alert(profile.getName())
             authsend(profile.getName())
         }).catch(function(error) {
             const errorCode = error.code;
