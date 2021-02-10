@@ -20,6 +20,7 @@
         firebase.auth().signInWithPopup(provider).then(function(result) {
             const token = result.credential.accessToken;
             const user = result.user;
+            alert(firebase.auth().currentUser.displayName)
             authsend(firebase.auth().currentUser.displayName)
         }).catch(function(error) {
             const errorCode = error.code;
