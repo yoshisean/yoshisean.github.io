@@ -23,8 +23,7 @@ document.getElementById("sendbtn").style.bottom = btnpos;
 setInterval(function(){
     if(document.getElementById('chatbox').scrollTop<(document.getElementById('chatbox').scrollHeight-document.getElementById('chatbox').offsetHeight)){
         document.getElementById('chatbox').scrollTop=document.getElementById('chatbox').scrollTop+10
-    }
-    else {document.getElementById('ecran').scrollTop=0;} }, 10);
+    } }, 10);
 
 
 window.addEventListener('keydown',enterclicked );
