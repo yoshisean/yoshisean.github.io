@@ -16,13 +16,11 @@
 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 <script>
     function onSignIn(googleUser) {
-        alert("nok")
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
             const token = result.credential.accessToken;
             const user = result.user;
             const profile = googleUser.getBasicProfile();
-            alert(profile.getName())
             authsend(profile.getName())
         }).catch(function(error) {
             const errorCode = error.code;
