@@ -20,10 +20,9 @@ const tbposy=document.getElementById("chattext").offsetTop;
 const btnpos=h-tbposy-20;
 document.getElementById("sendbtn").style.bottom = btnpos;
 
-setInterval(function(){
-    if(document.getElementById('chatbox').scrollTop<(document.getElementById('chatbox').scrollHeight-document.getElementById('chatbox').offsetHeight)){
-        document.getElementById('chatbox').scrollTop=document.getElementById('chatbox').scrollTop+10
-    } }, 10);
+function scroll(){
+    document.getElementById('chatbox').scrollTop = (document.getElementById('chatbox').scrollHeight - document.getElementById('chatbox').offsetHeight)
+}
 
 
 window.addEventListener('keydown',enterclicked );
