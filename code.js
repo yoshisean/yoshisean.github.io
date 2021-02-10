@@ -35,9 +35,6 @@ function enterclicked(e){
     }
 }
 
-firebase.database().ref("chats").on('child_added', function(childSnapshot, prevChildName) {
-    updatechatwwindow(childSnapshot.val().name,childSnapshot.val().created_at,childSnapshot.val().text)
-});
 
 function authsend(username){
     signedin=true
