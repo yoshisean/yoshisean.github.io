@@ -20,7 +20,6 @@
         firebase.auth().signInWithPopup(provider).then(function(result) {
             const token = result.credential.accessToken;
             const user = result.user;
-            alert(firebase.auth().currentUser.displayName)
             authsend(firebase.auth().currentUser.displayName)
             firebase.database().ref("chats").on('child_added', function (childSnapshot, prevChildName) {
                 updatechatwwindow(childSnapshot.val().name, childSnapshot.val().created_at, childSnapshot.val().text)
