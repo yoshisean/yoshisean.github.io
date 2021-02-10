@@ -68,7 +68,7 @@ function send() {
                 created_at: sendtime,
                 text: text
             })
-            document.getElementById("chattext").value = " "
+            document.getElementById("chattext").value = ""
         }
     }
 }
