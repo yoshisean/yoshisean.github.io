@@ -45,22 +45,31 @@ function authsend(username){
 }
 
 function send() {
-    if (signedin && document.getElementById("chattext").value !== "") {
-        const currentdate = new Date();
-        const sendtime = currentdate.getDate() + "/"
-            + (currentdate.getMonth() + 1) + "/"
-            + currentdate.getFullYear() + " @ "
-            + currentdate.getHours() + ":"
-            + currentdate.getMinutes() + ":"
-            + currentdate.getSeconds();
-        text = document.getElementById("chattext").value;
+    if (signedin ) {
+        let message = document.getElementById("chattext").value;
+        let blankspaces=0;
+        for(let i=0;i<message.length;i++){
+            if(message.charAt(i)==" "){
+                blankspaces++;
+            }
+        }
+        if (message.length-blankspaces > 0) {
+            const currentdate = new Date();
+            const sendtime = currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+            text = document.getElementById("chattext").value;
 
-        firebase.database().ref("chats/" + Date.now()).set({
-            name: name,
-            created_at: sendtime,
-            text: text
-        })
-        document.getElementById("chattext").value = " "
+            firebase.database().ref("chats/" + Date.now()).set({
+                name: name,
+                created_at: sendtime,
+                text: text
+            })
+            document.getElementById("chattext").value = " "
+        }
     }
 }
 
