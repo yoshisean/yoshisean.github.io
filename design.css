@@ -1,5 +1,15 @@
 body {background-color: dimgrey;}
 
+.filechoose{
+    position:fixed;
+    bottom: 30%;
+    left: 20%;
+}
+.pbar{
+    position:fixed;
+    bottom: 25%;
+    left: 20%;
+}
 .chattext {
     padding: 20px;
     border-radius: 25px;
