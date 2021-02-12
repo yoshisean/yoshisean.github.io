@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <title>Chat Thing</title>
@@ -7,13 +8,16 @@
     <link rel="stylesheet" href="design.css">
 </head>
 <body background-color="grey">
+
 <div id="wrapper">
     <div id="chatbox" class="chatbox"></div>
-
+    <input type="file" class="filechoose" id="filechoose">
+    <progress id="pbar" value="0" max="100" class="pbar"></progress>
     <input id="chattext" class="chattext" type="text"/>
     <button id="sendbtn" class="sendbtn" onclick="send()"><img src="resources/plus.png" width="30" height="30" alt="submit" /></button>
 </div>
 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
 <script>
     function onSignIn() {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -22,7 +26,11 @@
             const user = result.user;
             authsend(firebase.auth().currentUser.displayName)
             firebase.database().ref("chats").on('child_added', function (childSnapshot, prevChildName) {
-                updatechatwwindow(childSnapshot.val().name, childSnapshot.val().created_at, childSnapshot.val().text)
+                if(childSnapshot.val().image==="true"){
+                    addimage(childSnapshot.val().name,childSnapshot.val().url, childSnapshot.val().created_at)
+                }else{
+                    updatechatwwindow(childSnapshot.val().name, childSnapshot.val().created_at, childSnapshot.val().text)
+                }
                 scroll()
             });
         }).catch(function(error) {
@@ -32,14 +40,54 @@
             const credential = error.credential;
         });
     }
+
+    let filechoose=document.getElementById("filechoose")
+    let pbar=document.getElementById("pbar")
+    let filename;
+    let finalurl;
+    filechoose.addEventListener('change', function (e){
+        if(signedin){
+            const file = e.target.files[0];
+            filename=file.name;
+            let storageRef = firebase.storage().ref(file.name);
+            let task= storageRef.put(file);
+            task.on('state_changed',
+                function progress(snapshot){
+                    let percentage=(snapshot.bytesTransferred/snapshot.totalBytes)*100;
+                    pbar.value=percentage
+                },
+                function error(err){
+
+                },
+                function complete(){
+                    task.snapshot.ref.getDownloadURL().then(function (url){
+                        finalurl=url;
+                        pbar.value=0
+                        const currentdate = new Date();
+                        const sendtime = currentdate.getDate() + "/"
+                            + (currentdate.getMonth() + 1) + "/"
+                            + currentdate.getFullYear() + " @ "
+                            + currentdate.getHours() + ":"
+                            + currentdate.getMinutes() + ":"
+                            + currentdate.getSeconds();
+                        firebase.database().ref("chats/" + Date.now()).set({
+                            name: getUname(),
+                            url:finalurl,
+                            image:"true",
+                            created_at:sendtime
+                        })
+                    })
+                })
+        }
+    })
 </script>
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-storage.js"></script>
 
 <script src="code.js"></script>
 
 </body>
 </html>
-
